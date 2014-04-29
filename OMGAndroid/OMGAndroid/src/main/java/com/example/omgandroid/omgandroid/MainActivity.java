@@ -1,15 +1,13 @@
 package com.example.omgandroid.omgandroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -18,15 +16,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.Types;
-import java.util.ArrayList;
-
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private Button searchButton;
-    private ListView resultList;
-
-    private JSONAdapter jsonAdapter;
 
     // google places api url stuff
     private static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
@@ -43,11 +35,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // set up button
         searchButton = (Button)findViewById(R.id.button);
         searchButton.setOnClickListener(this);
-
-        // set up list
-        resultList = (ListView)findViewById(R.id.listView);
-        jsonAdapter = new JSONAdapter(this, getLayoutInflater());
-        resultList.setAdapter(jsonAdapter);
     }
 
     @Override
@@ -67,8 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         client.get(urlString, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(JSONObject jsonObject) {
-                        Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
-                        jsonAdapter.updateData(jsonObject.optJSONArray("results"));
+                        startResultsActivity(jsonObject.optJSONArray("results"));
                     }
 
                     @Override
@@ -79,11 +65,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 });
     }
 
+    private void startResultsActivity(JSONArray jsonArray) {
+        Intent resultIntent = new Intent(this, ResultsActivity.class);
 
+        resultIntent.putExtra("jsonArray", jsonArray.toString());
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-
-
-
+        startActivity(resultIntent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

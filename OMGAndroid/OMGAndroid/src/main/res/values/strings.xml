@@ -3,5 +3,6 @@
 
     <string name="app_name">Hunger Friend</string>
     <string name="action_settings">Settings</string>
+    <string name="results_activity">Results</string>
 
 </resources>
