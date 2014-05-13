@@ -1,11 +1,7 @@
 package com.example.omgandroid.omgandroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -50,13 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Makes an API call to the url and gathers the returned JSON formatted data
      */
     private void makeCallToUrl() {
-        Location l = getLocationData();
-
-        if (l==null) return;
-
-        String loc = l.getLatitude()+","+l.getLongitude();
-
-        String urlString = QUERY_URL + "location=" + loc + "&radius=" + RADIUS +
+        String urlString = QUERY_URL + "location=" + LOCATION + "&radius=" + RADIUS +
                 "&types=" + TYPE + "&sensor=false&key=" + KEY;
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -75,25 +65,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 });
     }
 
-    private Location getLocationData() {
-        LocationManager lm=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        Criteria c=new Criteria();
-        //criteria object will select best service based on
-
-        //now it will first check satellite than Internet than Sim network location
-       String provider=lm.getBestProvider(c, false);
-        //now you have best provider
-        //get location
-        Location l=lm.getLastKnownLocation(provider);
-        if(l!=null)
-        {
-            return l;
-        }
-
-        Toast.makeText(getApplicationContext(), "Cannot get location data. check your connection settings", Toast.LENGTH_LONG);
-        return null;
-
-    }
     private void startResultsActivity(JSONArray jsonArray) {
         Intent resultIntent = new Intent(this, ResultsActivity.class);
 
