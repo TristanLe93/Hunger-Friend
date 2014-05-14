@@ -2,6 +2,7 @@ package com.example.omgandroid.omgandroid;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 public class ResultsActivity extends Activity implements AdapterView.OnItemClickListener {
     private ListView resultList;
     private JSONAdapter adapter;
+    private Context con;
 
     private static final String urlString = "https://maps.googleapis.com/maps/api/place/details/json?";
     private static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
@@ -82,5 +84,10 @@ public class ResultsActivity extends Activity implements AdapterView.OnItemClick
         detailIntent.putExtra("restaurant details", jsonObject.toString());
         detailIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(detailIntent);
+    }
+
+    public void btnBack(View v) {
+        finish();
+
     }
 }

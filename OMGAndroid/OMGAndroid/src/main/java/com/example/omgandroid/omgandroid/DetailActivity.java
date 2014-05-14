@@ -1,6 +1,7 @@
 package com.example.omgandroid.omgandroid;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 
 
 public class DetailActivity extends Activity {
+    private Context con;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -85,5 +87,10 @@ public class DetailActivity extends Activity {
 
         mapIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mapIntent);
+    }
+
+    public void btnBack(View v) {
+        finish();
+
     }
 }
