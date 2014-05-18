@@ -12,15 +12,16 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class JSONAdapter extends BaseAdapter {
+public class ReviewsAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflater;
     JSONArray jsonArray;
 
-    public JSONAdapter(Context context, LayoutInflater inflater) {
+    public ReviewsAdapter(Context context, LayoutInflater inflater) {
         this.context = context;
         this.inflater = inflater;
         jsonArray = new JSONArray();
@@ -55,40 +56,33 @@ public class JSONAdapter extends BaseAdapter {
         if (convertView == null) {
 
             // Inflate the custom row layout from your XML.
-            convertView = inflater.inflate(R.layout.results_row, null);
+            convertView = inflater.inflate(R.layout.reviews_row, null);
 
             // create a new "Holder" with subviews
             holder = new ViewHolder();
-            holder.titleTextView = (TextView)convertView.findViewById(R.id.textview_title);
-            holder.authorTextView = (TextView)convertView.findViewById(R.id.textview_address);
+            holder.authorTextView = (TextView)convertView.findViewById(R.id.textview_authorName);
+            holder.ratingTextView = (TextView)convertView.findViewById(R.id.textview_rating);
+            holder.messageTextView = (TextView)convertView.findViewById(R.id.textview_message);
 
             // hang onto this holder for future recyclage
             convertView.setTag(holder);
         } else {
-
             // skip all the expensive inflation/findViewById
             // and just get the holder you already made
             holder = (ViewHolder)convertView.getTag();
         }
 
         // Get the current book's data in JSON form
-        JSONObject restaurantData = getItem(position);
+        JSONObject reviews = getItem(position);
 
-        // Grab the title and author from the JSON
-        String bookTitle = "";
-        String authorName = "";
-
-        if (restaurantData.has("name")) {
-           bookTitle = restaurantData.optString("name");
+        //set review data
+        try {
+            holder.authorTextView.setText(reviews.getString("author_name"));
+            holder.ratingTextView.setText(reviews.getString("rating"));
+            holder.messageTextView.setText(reviews.getString("text"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        if (restaurantData.has("vicinity")) {
-            authorName = restaurantData.optString("vicinity");
-        }
-
-        // Send these Strings to the TextViews for display
-        holder.titleTextView.setText(bookTitle);
-        holder.authorTextView.setText(authorName);
 
         return convertView;
     }
@@ -98,7 +92,8 @@ public class JSONAdapter extends BaseAdapter {
      *  inflation and finding by ID once ever per View
      */
     private static class ViewHolder {
-        public TextView titleTextView;
         public TextView authorTextView;
+        public TextView ratingTextView;
+        public TextView messageTextView;
     }
 }

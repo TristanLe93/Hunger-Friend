@@ -22,7 +22,6 @@ import org.json.JSONObject;
 public class ResultsActivity extends Activity implements AdapterView.OnItemClickListener {
     private ListView resultList;
     private JSONAdapter adapter;
-    private Context con;
 
     private static final String urlString = "https://maps.googleapis.com/maps/api/place/details/json?";
     private static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
@@ -34,8 +33,8 @@ public class ResultsActivity extends Activity implements AdapterView.OnItemClick
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // set up result list view
-        resultList = (ListView)findViewById(R.id.listView);
         adapter = new JSONAdapter(this, getLayoutInflater());
+        resultList = (ListView)findViewById(R.id.listView);
         resultList.setAdapter(adapter);
         resultList.setOnItemClickListener(this);
 
@@ -88,6 +87,5 @@ public class ResultsActivity extends Activity implements AdapterView.OnItemClick
 
     public void btnBack(View v) {
         finish();
-
     }
 }

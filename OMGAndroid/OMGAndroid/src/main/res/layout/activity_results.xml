@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:background="#ffe9fcfe"
 android:orientation="vertical" >
@@ -36,7 +37,7 @@ android:orientation="vertical" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LIST"
+            android:text="Results"
             android:textColor="#fff"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -53,22 +54,17 @@ android:orientation="vertical" >
 </LinearLayout>
 
 <LinearLayout
-    android:id="@+id/linearLayout1"
+    android:id="@+id/linearLayout2"
     android:layout_width="fill_parent"
     android:layout_height="0dip"
     android:layout_weight="9"
     android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/listView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
-        android:cacheColorHint="#00000000"
-        android:divider="#00000000"
-        android:dividerHeight="5dip"
-        android:scrollbars="none" >
-    </ListView>
+        android:id="@+id/listView"
+        tools:listitem="@android:layout/simple_list_item_1" />
 </LinearLayout>
 
 </LinearLayout>
