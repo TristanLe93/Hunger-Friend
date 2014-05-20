@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,7 +35,7 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
     ArrayList<MarkerOptions> markers;
 
     /**
-     * Create the Google Map.
+     * Create and set up the Google Map.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,11 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
     @Override
     public void onInfoWindowClick(Marker marker) {
         String key = marker.getTitle();
-        String id = restaurantId.get(key);
-        getRestaurantDetails(id);
+
+        if (restaurantId.containsKey(key)) {
+            String id = restaurantId.get(key);
+            getRestaurantDetails(id);
+        }
     }
 
     /**
@@ -61,11 +65,8 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
      * A Google Marker is created for each restaurant in the Json.
      */
     private void parseJsonString() {
-        // get json string
         String restaurantJson = getIntent().getExtras().getString("jsonArray");
 
-        // parse restaurantJson to JSONObject and store data in hashmap.
-        // create a google map marker to add to maps
         try {
             JSONArray restaurants = new JSONArray(restaurantJson);
 
@@ -76,8 +77,6 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
                 String name = r.optString("name");
                 String address = r.optString("vicinity");
                 String reference = r.optString("reference");
-
-                restaurantId.put(name, reference);
 
                 // get lat and lng
                 JSONObject location = r.optJSONObject("geometry").optJSONObject("location");
@@ -91,6 +90,7 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
                         .snippet(address)
                         .position(loc);
 
+                restaurantId.put(name, reference);
                 markers.add(m);
             }
         } catch (JSONException e) {
@@ -108,13 +108,19 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
         for (MarkerOptions m : markers) {
             map.addMarker(m);
         }
-        
-        // set the map to the first restaurant's location
-        if (markers.size() > 0){
-            MarkerOptions m = markers.get(0);
-            LatLng markerPos = m.getPosition();
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPos, 15));
-        }
+
+        // set users location
+        double lat = getIntent().getExtras().getDouble("latitude");
+        double lng = getIntent().getExtras().getDouble("longitude");
+        LatLng userLocation = new LatLng(lat, lng);
+
+        // create a marker for the users location
+        map.addMarker(new MarkerOptions()
+                .title("You are here!")
+                .position(userLocation)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
     }
 
     /**

@@ -25,9 +25,8 @@ import org.json.JSONObject;
  * @author Tristan Le
  */
 public class MainActivity extends Activity implements View.OnClickListener {
-
-
     private Button searchButton;
+    private Location location;
 
     /**
      * Set the search button to this listener.
@@ -69,14 +68,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Makes an API call to the url and returns JSON formatted data
      */
     private void makeCallToUrl() {
-        Location l = getLocationData();
-        if (l == null) {
+        location = getLocationData();
+        if (location == null) {
             return;
         }
 
-        // combine URL_NEARBY string
-        String loc = "-27.47,153.02";
-        //String loc = l.getLatitude()+","+l.getLongitude();
+        // combine url string
+        //String loc = "-27.47,153.02";
+        String loc = location.getLatitude() + "," + location.getLongitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=false&key=" + Constants.KEY;
 
@@ -134,8 +133,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void startResultsActivity(JSONArray jsonArray) {
         Intent i = new Intent(this, MapActivity.class);
         i.putExtra("jsonArray", jsonArray.toString());
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+        i.putExtra("latitude", location.getLatitude());
+        i.putExtra("longitude", location.getLongitude());
         startActivity(i);
     }
 }
