@@ -7,7 +7,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,10 +25,7 @@ import org.json.JSONObject;
  * @author Tristan Le
  */
 public class MainActivity extends Activity implements View.OnClickListener {
-    private static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
-    private static final String QUERY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-    private static final String TYPE = "restaurant";
-    private static final int RADIUS = 500;
+
 
     private Button searchButton;
 
@@ -78,11 +74,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             return;
         }
 
-        // combine URL string
+        // combine URL_NEARBY string
         String loc = "-27.47,153.02";
         //String loc = l.getLatitude()+","+l.getLongitude();
-        String urlString = QUERY_URL + "location=" + loc + "&radius=" + RADIUS +
-                "&types=" + TYPE + "&sensor=false&key=" + KEY;
+        String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
+                "&types=" + Constants.TYPE + "&sensor=false&key=" + Constants.KEY;
 
         // respond to the client output
         AsyncHttpClient client = new AsyncHttpClient();
@@ -136,12 +132,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * @param jsonArray json text containing restaurant information
      */
     private void startResultsActivity(JSONArray jsonArray) {
-        Intent resultIntent = new Intent(this, ResultsActivity.class);
-        resultIntent.putExtra("jsonArray", jsonArray.toString());
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent i = new Intent(this, MapActivity.class);
+        i.putExtra("jsonArray", jsonArray.toString());
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        startActivity(resultIntent);
+        startActivity(i);
     }
-
-
 }
