@@ -54,6 +54,9 @@ public class DetailActivity extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        StopWatch.stop();
+        Log.e("Details Execution Time", String.valueOf(StopWatch.getTime()));
     }
 
     public void btnBack(View v) {

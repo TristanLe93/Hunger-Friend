@@ -57,7 +57,6 @@
         android:layout_below="@+id/title_textview"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -100,14 +99,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Reviews"
-        android:id="@+id/textview_reviewTitle"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/listview_reviews"
         android:choiceMode="none"
         tools:listitem="@android:layout/simple_list_item_1" />

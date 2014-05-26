@@ -16,10 +16,55 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find me food"
+        android:text="Find Restaurants"
         android:id="@+id/button"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="34dp"
         android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/categories"
+        android:entries="@array/categories"
+        android:prompt="@string/choose_category"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/quality"
+        android:entries="@array/quality"
+        android:prompt="@string/choose_quality"
+        android:layout_below="@+id/categories"
+        android:layout_alignLeft="@+id/categories"
+        android:layout_alignStart="@+id/categories"
+        android:layout_alignRight="@+id/categories"
+        android:layout_alignEnd="@+id/categories" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/price"
+        android:entries="@array/price"
+        android:prompt="@string/choose_price"
+        android:layout_below="@+id/quality"
+        android:layout_alignLeft="@+id/quality"
+        android:layout_alignStart="@+id/quality"
+        android:layout_alignRight="@+id/quality"
+        android:layout_alignEnd="@+id/quality" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Filters"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/categories"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

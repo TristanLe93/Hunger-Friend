@@ -68,6 +68,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Makes an API call to the url and returns JSON formatted data
      */
     private void makeCallToUrl() {
+        StopWatch.start();
+
         location = getLocationData();
         if (location == null) {
             return;
@@ -77,7 +79,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         //String loc = "-27.47,153.02";
         String loc = location.getLatitude() + "," + location.getLongitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
-                "&types=" + Constants.TYPE + "&sensor=false&key=" + Constants.KEY;
+                "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
         // respond to the client output
         AsyncHttpClient client = new AsyncHttpClient();
