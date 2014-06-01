@@ -13,15 +13,17 @@
     </string-array>
     <string-array name="quality">
         <item>Quality: Any</item>
-        <item>Quality: >= 2</item>
-        <item>Quality: >= 3</item>
-        <item>Quality: >= 4</item>
-        <item>Quality: 5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
     <string-array name="price">
         <item>Price: Any</item>
-        <item>Price: >= 2</item>
-        <item>Price: >= 3</item>
-        <item>Price: 4</item>
+        <item>~$5</item>
+        <item>$7 - $15</item>
+        <item>$16 - $25</item>
+        <item>$25 - $35</item>
+        <item>> $35</item>
     </string-array>
 </resources>

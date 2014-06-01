@@ -24,7 +24,6 @@ public class DetailActivity extends Activity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_detail);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // get all the controls on this activity
         TextView title = (TextView)findViewById(R.id.title_textview);
@@ -40,8 +39,8 @@ public class DetailActivity extends Activity {
 
         String jsonString = getIntent().getExtras().getString("json");
 
-        // store all json data to its corresponding controls
         try {
+            // store all json data to its corresponding controls
             JSONObject data = new JSONObject(jsonString);
             JSONArray reviews = data.getJSONArray("reviews");
             adapter.updateData(reviews);
@@ -54,9 +53,6 @@ public class DetailActivity extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        StopWatch.stop();
-        Log.e("Details Execution Time", String.valueOf(StopWatch.getTime()));
     }
 
     public void btnBack(View v) {

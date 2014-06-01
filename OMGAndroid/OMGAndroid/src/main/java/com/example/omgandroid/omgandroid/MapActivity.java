@@ -49,9 +49,6 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
 
         parseJsonString();
         setupMap();
-
-        StopWatch.stop();
-        Log.e("Map Execution Time", String.valueOf(StopWatch.getTime()) + "ms");
     }
 
     @Override
@@ -131,8 +128,6 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
      * Makes an API call to get detailed Json of restaurant selected on map
      */
     private void getRestaurantDetails(String reference) {
-        StopWatch.start();
-
         String url = Constants.URL_DETAILS + "reference=" + reference +
                 "&sensor=false&key=" + Constants.KEY;
 

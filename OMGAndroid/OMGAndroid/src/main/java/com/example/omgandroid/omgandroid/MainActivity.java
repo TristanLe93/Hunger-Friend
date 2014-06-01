@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -27,6 +28,9 @@ import org.json.JSONObject;
 public class MainActivity extends Activity implements View.OnClickListener {
     private Button searchButton;
     private Location location;
+    private Spinner categories;
+    private Spinner quality;
+    private Spinner price;
 
     /**
      * Set the search button to this listener.
@@ -39,6 +43,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // set up button
         searchButton = (Button)findViewById(R.id.button);
         searchButton.setOnClickListener(this);
+
+        // set up spinners
+        categories = (Spinner)findViewById(R.id.categories);
+        quality = (Spinner)findViewById(R.id.quality);
+        price = (Spinner)findViewById(R.id.price);
     }
 
     /**
@@ -68,21 +77,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Makes an API call to the url and returns JSON formatted data
      */
     private void makeCallToUrl() {
-        StopWatch.start();
-
+        // get user location via 3G/GPS/WiFi connection
         location = getLocationData();
         if (location == null) {
             return;
         }
 
         // combine url string
-        //String loc = "-27.47,153.02";
-        String loc = location.getLatitude() + "," + location.getLongitude();
+
+        String loc = "-27.47,153.02";
+        //String loc = location.getLatitude() + "," + location.getLongitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
-        // respond to the client output
+        // apply user filters
+        int price = this.price.getSelectedItemPosition() - 1;
+        if (price >= 0) {
+            urlString += "&maxprice=" + price;
+        }
+
         AsyncHttpClient client = new AsyncHttpClient();
+
         client.get(urlString, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(JSONObject jsonObject) {
