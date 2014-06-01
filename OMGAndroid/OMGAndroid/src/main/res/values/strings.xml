@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hunger Friend</string>
+    <string name="action_settings">Settings</string>
+    <string name="results_activity">Results</string>
+    <string name="details_activity">Restaurant Details</string>
+    <string name="choose_category">Select Restaurant Category</string>
+    <string name="choose_quality">Select Quality Rating</string>
+    <string name="choose_price">Select Price Range</string>
+    <string-array name="categories">
+        <item>All Restaurants</item>
+        <item>Korean</item>
+        <item>Japanese</item>
+        <item>Fast Food</item>
+        <item>Mexican</item>
+        <item>Indian</item>
+        <item>Italian</item>
+    </string-array>
+    <string-array name="quality">
+        <item>Quality: Any</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="price">
+        <item>Price: Any</item>
+        <item>~$5</item>
+        <item>$7 - $15</item>
+        <item>$16 - $25</item>
+        <item>$25 - $35</item>
+        <item>> $35</item>
+    </string-array>
+</resources>
