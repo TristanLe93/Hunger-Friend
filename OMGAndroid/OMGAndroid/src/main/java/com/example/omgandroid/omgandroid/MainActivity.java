@@ -18,19 +18,19 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * This is the initial activity of the app.
- *
  * @author Tristan Le
  */
 public class MainActivity extends Activity implements View.OnClickListener {
     private Button searchButton;
-    private Location location;
     private Spinner categories;
-    private Spinner quality;
     private Spinner price;
+
+    private Location location;
 
     /**
      * Set the search button to this listener.
@@ -46,7 +46,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // set up spinners
         categories = (Spinner)findViewById(R.id.categories);
-        quality = (Spinner)findViewById(R.id.quality);
         price = (Spinner)findViewById(R.id.price);
     }
 
@@ -77,38 +76,40 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Makes an API call to the url and returns JSON formatted data
      */
     private void makeCallToUrl() {
-        // get user location via 3G/GPS/WiFi connection
-        location = getLocationData();
-        if (location == null) {
-            return;
-        }
+        this.location = getLocationData();
+        Toast.makeText(getApplicationContext(), "Finding restaurants...", Toast.LENGTH_SHORT).show();
 
         // combine url string
-
-        String loc = "-27.47,153.02";
-        //String loc = location.getLatitude() + "," + location.getLongitude();
+        //String loc = "-27.47,153.02";
+        String loc = this.location.getLongitude() + "," + this.location.getLatitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
         // apply user filters
         int price = this.price.getSelectedItemPosition() - 1;
+        int category = this.categories.getSelectedItemPosition();
+
         if (price >= 0) {
             urlString += "&maxprice=" + price;
         }
+        if (category > 0) {
+            String categoryString = this.categories.getSelectedItem().toString();
+            urlString += "&keyword=" + categoryString;
+        }
 
+        // set up http request client
         AsyncHttpClient client = new AsyncHttpClient();
-
         client.get(urlString, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(JSONObject jsonObject) {
-                        int results = jsonObject.optJSONArray("results").length();
+                        JSONArray data = jsonObject.optJSONArray(("results"));
 
-                        // only transition if we have results
-                        if (results == 0)  {
+                        if (data.length() == 0)  {
+                            // no results were found
                             String msg = "No results were found...";
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         } else {
-                            startResultsActivity(jsonObject.optJSONArray("results"));
+                            startResultsActivity(data);
                         }
                     }
 
@@ -126,6 +127,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * @return Location object containing latitude and longitude
      */
     private Location getLocationData() {
+        Toast.makeText(getApplicationContext(), "Getting location info...", Toast.LENGTH_SHORT).show();
+
         LocationManager lm = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         Criteria c = new Criteria();
 
@@ -145,13 +148,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     /**
      * Begin the transition to the results screen
-     * @param jsonArray json text containing restaurant information
+     * @param data json text containing restaurant information
      */
-    private void startResultsActivity(JSONArray jsonArray) {
+    private void startResultsActivity(JSONArray data) {
         Intent i = new Intent(this, MapActivity.class);
-        i.putExtra("jsonArray", jsonArray.toString());
+        i.putExtra("jsonArray", data.toString());
         i.putExtra("latitude", location.getLatitude());
         i.putExtra("longitude", location.getLongitude());
+        //i.putExtra("latitude", -27.47);
+        //i.putExtra("longitude", 153.02);
+
+        Toast.makeText(getApplicationContext(), data.length() + " restaurants found!", Toast.LENGTH_LONG).show();
         startActivity(i);
     }
 }

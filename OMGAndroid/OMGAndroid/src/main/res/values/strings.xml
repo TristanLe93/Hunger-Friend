@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Hunger Friend</string>
     <string name="action_settings">Settings</string>
     <string name="results_activity">Results</string>
@@ -10,6 +9,12 @@
     <string name="choose_price">Select Price Range</string>
     <string-array name="categories">
         <item>All Restaurants</item>
+        <item>Korean</item>
+        <item>Japanese</item>
+        <item>Fast Food</item>
+        <item>Mexican</item>
+        <item>Indian</item>
+        <item>Italian</item>
     </string-array>
     <string-array name="quality">
         <item>Quality: Any</item>

@@ -37,26 +37,12 @@
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/quality"
-        android:entries="@array/quality"
-        android:prompt="@string/choose_quality"
-        android:layout_below="@+id/categories"
-        android:layout_alignLeft="@+id/categories"
-        android:layout_alignStart="@+id/categories"
-        android:layout_alignRight="@+id/categories"
-        android:layout_alignEnd="@+id/categories" />
-
-    <Spinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/price"
         android:entries="@array/price"
         android:prompt="@string/choose_price"
-        android:layout_below="@+id/quality"
-        android:layout_alignLeft="@+id/quality"
-        android:layout_alignStart="@+id/quality"
-        android:layout_alignRight="@+id/quality"
-        android:layout_alignEnd="@+id/quality" />
+        android:layout_below="@+id/categories"
+        android:layout_alignLeft="@+id/categories"
+        android:layout_alignRight="@+id/categories" />
 
     <TextView
         android:layout_width="wrap_content"
