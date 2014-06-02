@@ -118,7 +118,7 @@ public class NavigationActivity extends Activity {
 
         for (int i = 0; i < jsonSteps.length(); i++) {
             JSONObject step = jsonSteps.optJSONObject(i);
-            Step s = new Step(step);
+            Step s = new Step(step, i);
             steps.add(s);
         }
 

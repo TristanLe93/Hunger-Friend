@@ -21,13 +21,12 @@ public class Step {
     private String duration;
     private List<LatLng> points;
 
-    public Step(JSONObject step) {
+    public Step(JSONObject step, int index) {
         distance = step.optJSONObject("distance").optString("text");
         duration = step.optJSONObject("duration").optString("text");
 
         // TODO: format instruction to string
-
-        instruction = Html.fromHtml(step.optString("html_instructions")).toString();
+        instruction = index + ". " + Html.fromHtml(step.optString("html_instructions")).toString();
 
         // parse start and end location
         JSONObject startLoc = step.optJSONObject("start_location");
