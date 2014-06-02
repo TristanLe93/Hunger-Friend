@@ -20,8 +20,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
+/**
+ * This activity produces a route path from the users location
+ * and to the restaurants location.
+ */
 public class NavigationActivity extends Activity {
     GoogleMap map;
 
@@ -63,7 +67,7 @@ public class NavigationActivity extends Activity {
 
         // create marker for restaraunt location
         map.addMarker(new MarkerOptions()
-                .title(name)        //TODO: restaurant loc
+                .title(name)
                 .snippet(address)
                 .position(restaurantLoc));
 
@@ -91,10 +95,11 @@ public class NavigationActivity extends Activity {
                 JSONArray routeJson = directions.optJSONArray("routes");
 
                 if (routeJson.length() > 0) {
-                    JSONArray legs = routeJson.optJSONObject(0).optJSONArray("legs");
-                    JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
+                    JSONObject route = routeJson.optJSONObject(0);
+                    JSONObject polyline = route.optJSONObject("overview_polyline");
+                    String points = polyline.optString("points");
 
-                    parseJsonResponse(steps);
+                    parseJsonResponse(points);
                 } else {
                     Toast.makeText(getApplicationContext(), "There is no routing possible for this location.", Toast.LENGTH_LONG);
                 }
@@ -109,25 +114,48 @@ public class NavigationActivity extends Activity {
         });
     }
 
-    private void parseJsonResponse(JSONArray stepsJson) {
-        ArrayList<Step> route = new ArrayList<Step>();
-
-        // parse json response
-        for (int i = 0; i < stepsJson.length(); i++) {
-            JSONObject stepJson = stepsJson.optJSONObject(i);
-            Step s = new Step(stepJson);
-
-            route.add(s);
-        }
+    private void parseJsonResponse(String path) {
+        List<LatLng> points = decodePoly(path);
 
         // create the routing
-        PolylineOptions polyLine = new PolylineOptions();
-        for (Step s : route) {
-            polyLine.add(s.getStart());
-            polyLine.add(s.getEnd());
+        for (int i = 0; i < points.size()-1; i++) {
+            LatLng src = points.get(i);
+            LatLng dest = points.get(i+1);
+            map.addPolyline(new PolylineOptions().add(src, dest));
+        }
+    }
+
+    private List<LatLng> decodePoly(String encoded) {
+        List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
         }
 
-        map.addPolyline(polyLine);
+        return poly;
     }
 
     @Override
