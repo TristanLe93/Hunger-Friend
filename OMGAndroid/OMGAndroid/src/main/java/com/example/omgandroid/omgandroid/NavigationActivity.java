@@ -135,9 +135,18 @@ public class NavigationActivity extends Activity {
                 LatLng src = points.get(i);
                 polyline.add(src);
             }
+
+            createMarker(s.getInstruction(), s.getStart());
         }
 
         map.addPolyline(polyline);
+    }
+
+    private void createMarker(String title, LatLng loc) {
+        map.addMarker(new MarkerOptions()
+                .title(title)
+                .position(loc)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
     }
 
     @Override

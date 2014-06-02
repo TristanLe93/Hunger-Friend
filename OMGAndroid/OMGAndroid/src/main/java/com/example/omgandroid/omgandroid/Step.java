@@ -1,5 +1,7 @@
 package com.example.omgandroid.omgandroid;
 
+import android.text.Html;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -24,7 +26,8 @@ public class Step {
         duration = step.optJSONObject("duration").optString("text");
 
         // TODO: format instruction to string
-        instruction = step.optString("html_instructions");
+
+        instruction = Html.fromHtml(step.optString("html_instructions")).toString();
 
         // parse start and end location
         JSONObject startLoc = step.optJSONObject("start_location");
