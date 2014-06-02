@@ -16,10 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class DetailActivity extends Activity {
-    private ListView resultList;
-    private ReviewsAdapter adapter;
-
+public class DetailActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -32,19 +29,22 @@ public class DetailActivity extends Activity {
         TextView rating = (TextView)findViewById(R.id.rating_textview);
         TextView website = (TextView)findViewById(R.id.url_textview);
 
+        Button directions = (Button)findViewById(R.id.directionsBtn);
+        directions.setOnClickListener(this);
+
         // set up reviews list view
-        adapter = new ReviewsAdapter(this, getLayoutInflater());
-        resultList = (ListView)findViewById(R.id.listview_reviews);
+        ReviewsAdapter adapter = new ReviewsAdapter(this, getLayoutInflater());
+        ListView resultList = (ListView)findViewById(R.id.listview_reviews);
         resultList.setAdapter(adapter);
 
         String jsonString = getIntent().getExtras().getString("json");
 
         try {
-            // store all json data to its corresponding controls
             JSONObject data = new JSONObject(jsonString);
             JSONArray reviews = data.getJSONArray("reviews");
             adapter.updateData(reviews);
 
+            // store all json data to its corresponding controls
             title.setText(data.optString("name"));
             address.setText(data.optString("vicinity"));
             phone.setText(data.optString("formatted_phone_number"));
@@ -57,5 +57,35 @@ public class DetailActivity extends Activity {
 
     public void btnBack(View v) {
         finish();
+    }
+
+    @Override
+    public void onClick(View view) {
+        String jsonString = getIntent().getExtras().getString("json");
+        String latlng = "";
+        String name = "";
+        String address = "";
+
+        try {
+            JSONObject data = new JSONObject(jsonString);
+
+            // set lat and lng
+            JSONObject loc = data.optJSONObject("geometry").optJSONObject("location");
+            String lat = loc.optString("lat");
+            String lng = loc.optString("lng");
+            latlng = lat + "," + lng;
+
+            // set name and address
+            name = data.optString("name");
+            address = data.optString("vicinity");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent navigation = new Intent(this, NavigationActivity.class);
+        navigation.putExtra("latlng", latlng);
+        navigation.putExtra("name", name);
+        navigation.putExtra("address", address);
+        startActivity(navigation);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.omgandroid.omgandroid;
 
+import android.location.Location;
+
 /**
  * Class designed to keep all of its constant variables here.
  */
@@ -11,4 +13,6 @@ public class Constants {
     public static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
     public static final String TYPE = "restaurant";
     public static final int RADIUS = 500;
+
+    public static Location userLocation;
 }

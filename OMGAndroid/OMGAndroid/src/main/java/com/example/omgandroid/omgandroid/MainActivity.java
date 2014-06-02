@@ -77,11 +77,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void makeCallToUrl() {
         this.location = getLocationData();
+        if (location == null)
+            return;
+
         Toast.makeText(getApplicationContext(), "Finding restaurants...", Toast.LENGTH_SHORT).show();
 
         // combine url string
-        //String loc = "-27.47,153.02";
-        String loc = this.location.getLongitude() + "," + this.location.getLatitude();
+        String loc = "-27.47,153.02";
+        //String loc = this.location.getLongitude() + "," + this.location.getLatitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
@@ -143,6 +146,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             return null;
         }
 
+        Constants.userLocation = location;
         return location;
     }
 
@@ -153,10 +157,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void startResultsActivity(JSONArray data) {
         Intent i = new Intent(this, MapActivity.class);
         i.putExtra("jsonArray", data.toString());
-        i.putExtra("latitude", location.getLatitude());
-        i.putExtra("longitude", location.getLongitude());
-        //i.putExtra("latitude", -27.47);
-        //i.putExtra("longitude", 153.02);
+        //i.putExtra("latitude", location.getLatitude());
+//        i.putExtra("longitude", location.getLongitude());
+        i.putExtra("latitude", -27.47);
+        i.putExtra("longitude", 153.02);
 
         Toast.makeText(getApplicationContext(), data.length() + " restaurants found!", Toast.LENGTH_LONG).show();
         startActivity(i);

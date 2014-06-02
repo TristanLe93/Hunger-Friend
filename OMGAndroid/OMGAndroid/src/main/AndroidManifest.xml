@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -20,39 +20,45 @@
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MapActivity"
+            android:name="com.example.omgandroid.omgandroid.MapActivity"
+            android:hardwareAccelerated="true"
             android:label="Restaurant Map"
-            android:parentActivityName="com.example.omgandroid.omgandroid.MainActivity"
-            android:hardwareAccelerated="true">
+            android:parentActivityName="com.example.omgandroid.omgandroid.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.omgandroid.omgandroid.MainActivity">
+                android:value="com.example.omgandroid.omgandroid.MainActivity" >
             </meta-data>
         </activity>
-
         <activity
-            android:name=".DetailActivity"
-            android:label="@string/details_activity">
+            android:name="com.example.omgandroid.omgandroid.DetailActivity"
+            android:label="@string/details_activity" >
+        </activity>
+        <activity
+            android:name="com.example.omgandroid.omgandroid.NavigationActivity"
+            android:label="@string/title_activity_navigation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="DetailActivity" />
         </activity>
     </application>
 
     <!-- Internet and network access for API calls -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!-- External storage for caching. -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- My Location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Maps API needs OpenGL ES 2.0. -->
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
 </manifest>
