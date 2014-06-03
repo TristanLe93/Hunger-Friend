@@ -62,18 +62,18 @@ public class NavigationActivity extends Activity {
         lng = Double.parseDouble(latlng[1]);
         LatLng restaurantLoc = new LatLng(lat, lng);
 
-        // restaurant info
+        // set restaurant info
         String name = getIntent().getExtras().getString("name");
         String address = getIntent().getExtras().getString("address");
 
-        // create marker for restaraunt location
+        // create marker for restaurant location
         map.addMarker(new MarkerOptions()
                 .title(name)
                 .snippet(address)
                 .position(restaurantLoc));
 
         // zoom to user location
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 13));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 11));
 
         // fetch directions
         String start =  userLoc.latitude + "," + userLoc.longitude;
@@ -81,6 +81,11 @@ public class NavigationActivity extends Activity {
         fetchDirections(start, end);
     }
 
+    /**
+     * Makes a URL call to the API and attempts to get directions between two points.
+     * @param start - starting location
+     * @param end - ending location
+     */
     private void fetchDirections(String start, String end) {
         // create url string
         String baseUrl = "http://maps.googleapis.com/maps/api/directions/json?sensor=true";
@@ -96,6 +101,7 @@ public class NavigationActivity extends Activity {
                 JSONArray routeJson = directions.optJSONArray("routes");
 
                 if (routeJson.length() > 0) {
+                    // parse the json response
                     JSONArray legs = routeJson.optJSONObject(0).optJSONArray("legs");
                     JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
                     parseJsonResponse(steps);
@@ -113,9 +119,14 @@ public class NavigationActivity extends Activity {
         });
     }
 
+    /**
+     * Parses the JSON response and creates the routing on the map to the location.
+     * @param jsonSteps
+     */
     private void parseJsonResponse(JSONArray jsonSteps) {
         ArrayList<Step> steps = new ArrayList<Step>();
 
+        // store each step information
         for (int i = 0; i < jsonSteps.length(); i++) {
             JSONObject step = jsonSteps.optJSONObject(i);
             Step s = new Step(step, i);
@@ -136,12 +147,18 @@ public class NavigationActivity extends Activity {
                 polyline.add(src);
             }
 
+            // add a marker display the directions for travel
             createMarker(s.getInstruction(), s.getStart());
         }
 
         map.addPolyline(polyline);
     }
 
+    /**
+     * Creates a marker to display directions on the road.
+     * @param title - the direction
+     * @param loc - location of the marker
+     */
     private void createMarker(String title, LatLng loc) {
         map.addMarker(new MarkerOptions()
                 .title(title)

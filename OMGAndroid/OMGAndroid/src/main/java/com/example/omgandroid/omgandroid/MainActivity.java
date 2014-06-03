@@ -23,7 +23,9 @@ import org.json.JSONObject;
 
 /**
  * This is the initial activity of the app.
- * @author Tristan Le
+ * It contains a search button and filters for restaurant search.
+ *
+ * @author Tristan Le, N8320055
  */
 public class MainActivity extends Activity implements View.OnClickListener {
     private Button searchButton;
@@ -83,8 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Toast.makeText(getApplicationContext(), "Finding restaurants...", Toast.LENGTH_SHORT).show();
 
         // combine url string
-        String loc = "-27.47,153.02";
-        //String loc = this.location.getLongitude() + "," + this.location.getLatitude();
+        String loc = this.location.getLongitude() + "," + this.location.getLatitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
@@ -157,10 +158,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void startResultsActivity(JSONArray data) {
         Intent i = new Intent(this, MapActivity.class);
         i.putExtra("jsonArray", data.toString());
-        //i.putExtra("latitude", location.getLatitude());
-//        i.putExtra("longitude", location.getLongitude());
-        i.putExtra("latitude", -27.47);
-        i.putExtra("longitude", 153.02);
+        i.putExtra("latitude", location.getLatitude());
+        i.putExtra("longitude", location.getLongitude());
 
         Toast.makeText(getApplicationContext(), data.length() + " restaurants found!", Toast.LENGTH_LONG).show();
         startActivity(i);

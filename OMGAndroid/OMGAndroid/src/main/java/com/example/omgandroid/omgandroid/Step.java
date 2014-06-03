@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Tristan on 03-Jun-14.
+ * This class stores data of a single point of the routing path.
+ * The route path is divided up into individual steps.
+ *
+ * @author Tristan Le, N8320055
  */
 public class Step {
     private LatLng start;
@@ -21,11 +24,15 @@ public class Step {
     private String duration;
     private List<LatLng> points;
 
+    /**
+     * Construct the step by passing the JSON text
+     * containing the data
+     * @param step - json string of the step
+     * @param index - the number of which the step occurs in the route path
+     */
     public Step(JSONObject step, int index) {
         distance = step.optJSONObject("distance").optString("text");
         duration = step.optJSONObject("duration").optString("text");
-
-        // TODO: format instruction to string
         instruction = index + ". " + Html.fromHtml(step.optString("html_instructions")).toString();
 
         // parse start and end location
@@ -60,8 +67,16 @@ public class Step {
         return start;
     }
 
-    public List<LatLng> getPoints() { return points; }
+    public List<LatLng> getPoints() {
+        return points;
+    }
 
+    /**
+     * Helper method that decodes the Polyline text from the json string
+     * and creates LatLng points.
+     * @param encoded - polyline encoded text
+     * @return list of LatLng points
+     */
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<LatLng>();
         int index = 0, len = encoded.length();
