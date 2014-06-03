@@ -10,13 +10,14 @@
     <string name="choose_price">Select Price Range</string>
 
     <string-array name="categories">
-        <item>All Restaurants</item>
-        <item>Korean</item>
-        <item>Japanese</item>
+        <item>Type: All Restaurants</item>
+        <item>Chinese</item>
         <item>Fast Food</item>
-        <item>Mexican</item>
         <item>Indian</item>
         <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Mexican</item>
     </string-array>
     <string-array name="quality">
         <item>Quality: Any</item>

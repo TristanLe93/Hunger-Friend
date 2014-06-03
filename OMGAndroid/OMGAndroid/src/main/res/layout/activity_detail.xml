@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffe9fcfe"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -18,13 +17,13 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.5"
-            android:gravity="center"
-            android:onClick="btnBack" >
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back">
+                android:src="@drawable/back"
+                android:onClick="btnBack">
 
             </ImageView>
 
@@ -67,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Address"
+                android:text="Address is not specified"
                 android:id="@+id/address_textview"
                 android:singleLine="false"
                 android:layout_below="@+id/title_textview"
@@ -80,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Phone Number"
+                android:text="Phone Number is not available"
                 android:id="@+id/phone_textview"
                 android:layout_below="@+id/address_textview"
                 android:layout_alignLeft="@+id/address_textview"
@@ -92,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Website"
+                android:text="Website is not available"
                 android:id="@+id/url_textview"
                 android:layout_below="@+id/rating_textview"
                 android:layout_alignLeft="@+id/rating_textview"
@@ -104,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Rating"
+                android:text="Rating is not available"
                 android:id="@+id/rating_textview"
                 android:layout_below="@+id/phone_textview"
                 android:layout_alignLeft="@+id/phone_textview"

@@ -43,7 +43,6 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         restaurantId = new HashMap(20);
         markers = new ArrayList<MarkerOptions>();
@@ -129,6 +128,7 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
      * Makes an API call to get detailed Json of restaurant selected on map
      */
     private void getRestaurantDetails(String reference) {
+        Toast.makeText(getApplicationContext(), "Fetching restaurant details...", Toast.LENGTH_SHORT).show();
         String url = Constants.URL_DETAILS + "reference=" + reference +
                 "&sensor=false&key=" + Constants.KEY;
 

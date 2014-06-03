@@ -33,7 +33,7 @@ public class Step {
     public Step(JSONObject step, int index) {
         distance = step.optJSONObject("distance").optString("text");
         duration = step.optJSONObject("duration").optString("text");
-        instruction = index + ". " + Html.fromHtml(step.optString("html_instructions")).toString();
+        instruction = index+1 + ". " + Html.fromHtml(step.optString("html_instructions")).toString();
 
         // parse start and end location
         JSONObject startLoc = step.optJSONObject("start_location");

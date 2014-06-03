@@ -89,8 +89,7 @@ public class NavigationActivity extends Activity {
      */
     private void fetchDirections(String start, String end) {
         // create url string
-        String baseUrl = "http://maps.googleapis.com/maps/api/directions/json?sensor=true";
-        String url = baseUrl + "&origin=" + start + "&destination=" + end;
+        String url = Constants.URL_DIRECTIONS + "&origin=" + start + "&destination=" + end;
 
         ArrayList route = new ArrayList<Step>();
 

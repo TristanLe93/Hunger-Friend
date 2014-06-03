@@ -16,14 +16,13 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.5"
-            android:gravity="center"
-            android:onClick="btnBack" >
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back">
-
+                android:src="@drawable/back"
+                android:onClick="btnBack">
             </ImageView>
 
             <TableRow

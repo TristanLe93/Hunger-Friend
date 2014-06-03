@@ -1,12 +1,9 @@
 package com.example.omgandroid.omgandroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +14,8 @@ import org.json.JSONObject;
 
 
 public class DetailActivity extends Activity implements View.OnClickListener {
+    private Button directionsBtn;
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -29,8 +28,8 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         TextView rating = (TextView)findViewById(R.id.rating_textview);
         TextView website = (TextView)findViewById(R.id.url_textview);
 
-        Button directions = (Button)findViewById(R.id.directionsBtn);
-        directions.setOnClickListener(this);
+        directionsBtn = (Button)findViewById(R.id.directionsBtn);
+        directionsBtn.setOnClickListener(this);
 
         // set up reviews list view
         ReviewsAdapter adapter = new ReviewsAdapter(this, getLayoutInflater());
@@ -41,8 +40,11 @@ public class DetailActivity extends Activity implements View.OnClickListener {
 
         try {
             JSONObject data = new JSONObject(jsonString);
-            JSONArray reviews = data.getJSONArray("reviews");
-            adapter.updateData(reviews);
+            JSONArray reviews = data.optJSONArray("reviews");
+
+            if (reviews != null) {
+                adapter.updateData(reviews);
+            }
 
             // store all json data to its corresponding controls
             title.setText(data.optString("name"));
@@ -61,6 +63,16 @@ public class DetailActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        if (view == directionsBtn) {
+            directionsBtnClick();
+        }
+    }
+
+    /**
+     * Opens the navigation map display a route path to the restaurant from
+     * the user's location
+     */
+    private void directionsBtnClick() {
         String jsonString = getIntent().getExtras().getString("json");
         String latlng = "";
         String name = "";
