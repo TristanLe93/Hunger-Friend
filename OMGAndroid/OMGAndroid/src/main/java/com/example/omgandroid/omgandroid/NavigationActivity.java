@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,7 +31,8 @@ import java.util.List;
  * and to the restaurants location.
  */
 public class NavigationActivity extends Activity {
-    GoogleMap map;
+    private GoogleMap map;
+    private ArrayList<Step> steps = new ArrayList<Step>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,42 @@ public class NavigationActivity extends Activity {
         setContentView(R.layout.activity_navigation);
 
         createMap();
+    }
+
+    private void setInformation(JSONObject leg) {
+        List<String> headers = new ArrayList<String>();
+        HashMap<String, List<String>> child = new HashMap<String, List<String>>();
+
+        // add list headers
+        headers.add("Directions");
+        headers.add("Details");
+
+        // get details
+        String startAddress = "From: " + leg.optString("start_address");
+        String endAddress = "To: " + leg.optString("end_address");
+        String distance = "Distance: " + leg.optJSONObject("distance").optString("text");
+        String time = "Duration: " + leg.optJSONObject("duration").optString("text");
+
+        List<String> details = new ArrayList<String>();
+        details.add(startAddress);
+        details.add(endAddress);
+        details.add(distance);
+        details.add(time);
+
+        // get directions
+        List<String> directions = new ArrayList<String>();
+        for (Step s : steps) {
+            directions.add(s.getInstruction());
+        }
+
+        // set child data to hashmap
+        child.put(headers.get(0), directions);
+        child.put(headers.get(1), details);
+
+        // create the list view
+        ExpandableListView listView = (ExpandableListView)findViewById(R.id.expLv);
+        ExpandableListAdapter adapter = new ExpandableListAdapter(this, headers, child);
+        listView.setAdapter(adapter);
     }
 
     /**
@@ -73,8 +112,13 @@ public class NavigationActivity extends Activity {
                 .snippet(address)
                 .position(restaurantLoc));
 
+        // find location between destination and location
+        double x = ((restaurantLoc.latitude - userLoc.latitude) / 2) + userLoc.latitude;
+        double y = ((restaurantLoc.longitude - userLoc.longitude) / 2) + userLoc.longitude;
+        LatLng destination = new LatLng(x, y);
+
         // zoom to user location
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 11));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(destination, 16));
 
         // fetch directions
         String start =  userLoc.latitude + "," + userLoc.longitude;
@@ -103,8 +147,8 @@ public class NavigationActivity extends Activity {
                 if (routeJson.length() > 0) {
                     // parse the json response
                     JSONArray legs = routeJson.optJSONObject(0).optJSONArray("legs");
-                    JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
-                    parseJsonResponse(steps);
+
+                    parseJsonResponse(legs);
                 } else {
                     Toast.makeText(getApplicationContext(), "There is no routing possible for this location.", Toast.LENGTH_LONG);
                 }
@@ -121,10 +165,12 @@ public class NavigationActivity extends Activity {
 
     /**
      * Parses the JSON response and creates the routing on the map to the location.
-     * @param jsonSteps
+     * @param jsonLegs
      */
-    private void parseJsonResponse(JSONArray jsonSteps) {
-        ArrayList<Step> steps = new ArrayList<Step>();
+    private void parseJsonResponse(JSONArray jsonLegs) {
+        JSONObject leg = jsonLegs.optJSONObject(0);
+        JSONArray jsonSteps = leg.optJSONArray("steps");
+        steps = new ArrayList<Step>();
 
         // store each step information
         for (int i = 0; i < jsonSteps.length(); i++) {
@@ -146,24 +192,10 @@ public class NavigationActivity extends Activity {
                 LatLng src = points.get(i);
                 polyline.add(src);
             }
-
-            // add a marker display the directions for travel
-            createMarker(s.getInstruction(), s.getStart());
         }
 
         map.addPolyline(polyline);
-    }
-
-    /**
-     * Creates a marker to display directions on the road.
-     * @param title - the direction
-     * @param loc - location of the marker
-     */
-    private void createMarker(String title, LatLng loc) {
-        map.addMarker(new MarkerOptions()
-                .title(title)
-                .position(loc)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        setInformation(leg);
     }
 
     @Override

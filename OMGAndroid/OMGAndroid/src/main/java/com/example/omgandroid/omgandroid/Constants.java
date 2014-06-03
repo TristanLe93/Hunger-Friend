@@ -12,7 +12,7 @@ public class Constants {
 
     public static final String KEY = "AIzaSyAa2USMUtwlohudtlYIN1Gb7jTYvn5albk";
     public static final String TYPE = "restaurant";
-    public static final int RADIUS = 500;
+    public static final int RADIUS = 2000;
 
     // stored here to transfer user location to navigation screen
     public static Location userLocation;
