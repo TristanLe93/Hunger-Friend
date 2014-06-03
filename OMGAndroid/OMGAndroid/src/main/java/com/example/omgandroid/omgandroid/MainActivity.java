@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Toast.makeText(getApplicationContext(), "Finding restaurants...", Toast.LENGTH_SHORT).show();
 
         // combine url string
-        String loc = this.location.getLongitude() + "," + this.location.getLatitude();
+        String loc = this.location.getLatitude() + "," + this.location.getLongitude();
         String urlString = Constants.URL_NEARBY + "location=" + loc + "&radius=" + Constants.RADIUS +
                 "&types=" + Constants.TYPE + "&sensor=true&key=" + Constants.KEY;
 
