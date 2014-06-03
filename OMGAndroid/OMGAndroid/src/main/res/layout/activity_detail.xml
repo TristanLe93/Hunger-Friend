@@ -24,24 +24,30 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back" />
-        </TableRow>
+                android:src="@drawable/back">
 
-        <TableRow
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="7"
-            android:gravity="center" >
+            </ImageView>
 
-            <TextView
+            <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Title of Restaurant"
-                android:id="@+id/title_textview"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:textAlignment="center" />
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:background="@drawable/abc_textfield_search_selected_holo_light">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Title of Restaurant"
+                    android:textColor="#fff"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:id="@+id/title_textview"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="false"
+                    android:textAlignment="center" />
+            </TableRow>
         </TableRow>
 
 
@@ -127,6 +133,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/listview_reviews"
                 android:choiceMode="none"
+                android:divider="#001c1c1c"
+                android:dividerHeight="30dip"
                 tools:listitem="@android:layout/simple_list_item_1" />
         </LinearLayout>
     </ScrollView>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -103,7 +104,7 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
      * Sets up the Google Map by adding map markers from the markers collection.
      */
     private void setupMap() {
-        GoogleMap map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
+        GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setOnInfoWindowClickListener(this);
 
         for (MarkerOptions m : markers) {
@@ -149,11 +150,16 @@ public class MapActivity extends Activity implements GoogleMap.OnInfoWindowClick
 
     /**
      * Begins the transition to DetailsActivity
+     *
      * @param json containing information of the chosen restaurant
      */
     private void startDetailsActivity(JSONObject json) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("json", json.toString());
         startActivity(i);
+    }
+
+    public void btnBack(View v) {
+        finish();
     }
 }
