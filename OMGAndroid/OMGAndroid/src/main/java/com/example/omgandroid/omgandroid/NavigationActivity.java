@@ -76,6 +76,19 @@ public class NavigationActivity extends Activity {
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.expLv);
         ExpandableListAdapter adapter = new ExpandableListAdapter(this, headers, child);
         listView.setAdapter(adapter);
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                if (groupPosition == 0) {
+                    LatLng dest = steps.get(childPosition).getStart();
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(dest, 16));
+                }
+                return false;
+            }
+        });
+
     }
 
     /**
